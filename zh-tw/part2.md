@@ -1,53 +1,53 @@
 # 2. 時至今日 HTTP
 
-HTTP 1.1 已演變成一種互聯網上的一切幾乎都用上的通訊協定。能好好利用這一點的通訊協定以至基礎設施都下了巨大投資。程度之巨，今天要在 HTTP 上運行，總要比另起爐灶來得容易。
+HTTP 1.1 已演變成一種互聯網上的一切幾乎都用上的通訊協定。能好好利用這一點的通訊協定以至基礎設施都下了巨大投資。程度之巨，今天要把一樣事物在 HTTP 上運行，總要比另起爐灶來得容易。
 
 ## 2.1 HTTP 1.1 很龐大
 
-想當年創立 HTTP 並應用到世界的時候，人人都視之為一種相當簡單直截的通訊協定。但時間令人大跌眼鏡。HTTP 1.0 是 1996 年發布的 RFC 1945 中的規格，長達 60 頁。僅三年後，1999 年發布的 RFC 2616 所描述的 HTTP 1.1 已大大增幅到 176 頁。然而，當我們在 IETF 參與該規格的更新時，將其分開並轉成六份文件，總頁數大大增加（形成 RFC 7230 及其子系）。怎樣說，HTTP 1.1 很大，並包含一眾詳細、細微，以至許多選用的部份。
+想當年創立 HTTP 並應用到世界的時候，人人都視之為一種相當簡單直截的通訊協定。但時間令人大跌眼鏡。HTTP 1.0 在 1996 年發布的 RFC 1945 規格中長達 60 頁。僅三年後，1999 年發布的 RFC 2616 所描述的 HTTP 1.1 已大大增幅到 176 頁。然而，當我們在 IETF 參與該規格的更新時，將其分開並轉成六份文件，總頁數又大大增加（形成 RFC 7230 一族）。怎樣說，HTTP 1.1 很大，並包含一眾詳細、細微，以至許多選用的部份。
 
 ## 2.2 選項萬象
 
-HTTP 1.1 的特性有許多微小的細節及可用的選項，以便日後延伸。這形成一種軟件生態：幾乎從沒有一個實作，真正實作了一切。而且「一切」究竟是甚麼，也難以說清。這導致了一種情況：過往一直少用的功能，很少被實作；而落實了這些功能的實作，卻又見得很少用途。
+HTTP 1.1 的特性有許多微小的細節及可用的選項，以便日後延伸。這形成一種軟體生態：幾乎從沒有一個實作，真正實作了一切。況且「一切」究竟是甚麼，也難以說得清。這導致了一種情況：過往一直少用的功能，很少被實作；而落實了這些功能的實作，卻又見得很少用途。
 
-然後，當用戶端和伺服器開始多用這些功能時，這又產生了互通性問題。這特性的一個要例就是 HTTP Pipelining。
+然後，當用戶端和伺服器開始多加使用這些功能時，又產生了互通性問題。這特性的一個主要例子就是 HTTP Pipelining。
 
 ## 2.3 TCP 善用不足
 
 HTTP 1.1 要真正善用所有 TCP 所帶來的功效及表現，一直顯得相當吃力。HTTP 用戶端和伺服器要富有創意，才能找到方法減少頁面載入時間。
 
-與此同時，多年來不懈的嘗試，亦確認了 TCP 確實相當不容易被取締。因此，我們不斷努力改善 TCP 以及建基於上的通訊協定。
+與此同時，多年來不懈的嘗試，亦確認了 TCP 的確不容易被取締。因此，我們不斷努力改善 TCP 以及建基其上的通訊協定。
 
-簡單來說，TCP 可以更好善用，以避免暫停，或那些本該能傳送或接收更多資料的時刻。以下各節標注其中一些短處。
+簡單來說，TCP 可以更好善用，以避免暫停－－即那些本該能傳送或接收更多資料的時刻。以下各節標注其中一些短處。
 
-## 2.4 Transfer sizes and number of objects
+## 2.4 傳輸大小及物件數目
 
-When looking at the trend for some of the most popular sites on the web today and what it takes to download their front pages, a clear pattern emerges. Over the years the amount of data that needs to be retrieved has gradually risen up to and above 1.9MB . What is more important in this context is that on average over a hundred individual resources are required to display each page.
+且看今天網路上一些最熱門的網站的趨勢，以及下載首頁時所需，浮現出一種清晰的模式。多年來，所須提取的資料數量逐步上升至超過 1.9MB。更重要的是，與此同時，顯示每一頁所須的個別資源平均已超過一百。
 
-As the graph below shows, the trend has been going on for a while and there is little to no indication that it'll change anytime soon. It shows the growth of the total transfer size (in green) and the total number of requests used on average (in red) to serve the most popular web sites in the world, and how they have changed over the last four years.
+如下面圖表顯示，這趨勢已持續了好一會兒，而且幾乎沒有跡象顯示情況會在短期內改變。圖表反映出總傳輸大小的增長（綠線），以及平均上的要求總數（紅線），用於回應世界上一些最熱門的網站的處理所需，以及過去四年來的變化。
 
 ![transfer size growth](https://raw.githubusercontent.com/bagder/http2-explained/master/images/transfer-size-growth.png)
 
-## 2.5 Latency kills
+## 2.5 延遲要命
 
 <img style="float: right;" src="https://raw.githubusercontent.com/bagder/http2-explained/master/images/page-load-time-rtt-decreases.png" />
 
-HTTP 1.1 is very latency sensitive, partly because HTTP Pipelining is still riddled with enough problems to remain switched off to a large percentage of users.
+HTTP 1.1 對延遲非常敏感，部份原因是 HTTP Pipelining 仍然諸多問題，讓一大部份的使用者依然將之關閉。
 
-While we've seen a great increase in available bandwidth to people over the last few years, we have not seen the same level of improvements in reducing latency. High latency links, like many of the current mobile technologies, make it really hard to get a good and fast web experience even if you have a really high bandwidth connection.
+過去數年來，儘管人們可用的頻寬大大增加，卻不見得在減少延遲方面有同樣程度的改善。一些高延遲的連結，像是許多目前的流動科技，讓網上體驗難以做到真正快而完善，儘管連線頻寬確實相當高。
 
-Another use case that really needs low latency is certain kinds of video, like video conferencing, gaming and similar where there's not just a pre-generated stream to send out.
+另一個需要低延遲的使用案例就是某些類型的視訊，例如視像會議、遊戲等，需要傳送的不僅是一條已預先產生好的串流。
 
 ## 2.6. Head of line blocking
 
-HTTP Pipelining is a way to send another request while waiting for the response to a previous request. It is very similar to queuing at a counter at the bank or in a super market. You just don't know if the person in front of you is a quick customer or that annoying one that will take forever before he/she is done: head of line blocking.
+HTTP Pipelining 方法是在等候上一個要求的回應時，傳送另一個要求。這與在銀行或超市櫃台前輪候非常相似。你不會知道排在前面的那位貴客會是很爽快的，或是會糾結不斷。這就是：head of line blocking（龍頭阻滯）。
 
 <img style="float: right;" src="https://raw.githubusercontent.com/bagder/http2-explained/master/images/head-of-line-blocking.jpg" />
 
-Sure you can be careful about line picking so that you pick the one you really believe is the correct one, and at times you can even start a new line of your own but in the end you can't avoid making a decision and once it is made you cannot switch lines.
+當然，你可以看風使舵，挑一條深信是快隊的來排。偶然，你亦可排一條新隊。但終歸，你也要立定主意，挑好了就不能回頭。
 
-Creating a new line is also associated with a performance and resource penalty so that's not scalable beyond a smaller number of lines. There's just no perfect solution to this.
+另開新線亦對效能及資源有負面影響，因此規模亦僅限於小數目，故曰：甘蔗沒有兩頭甜。
 
-Even today, 2015, most desktop web browsers ship with HTTP pipelining disabled by default.
+即使今天，2015 年，大部份桌上網路瀏覽器都預設將 HTTP pipelining 停用。
 
-Additional reading on this subject can be found for example in the Firefox [bugzilla entry 264354](https://bugzilla.mozilla.org/show_bug.cgi?id=264354).
+有關本主題的其他閱讀，作為例子可參考 Firefox [bugzilla 條目 264354](https://bugzilla.mozilla.org/show_bug.cgi?id=264354).
