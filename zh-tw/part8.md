@@ -1,44 +1,38 @@
 # 8. http2 新世界
 
-當 http2 廣泛採用時，會是一番怎樣的新景象？又或者，會否廣獲採用？
+當廣泛採用 http2 時，會是一番怎樣的新景象？又或者，會否廣獲採用？
 
 ## 8.1. http2 與我何干？
 
-http2 尚未廣泛部署或使用。無人能預知他朝事。君可見 SPDY 怎樣獲採用，加上過去與現在的實驗，從而可猜猜算算。
+http2 現在尚未獲廣泛部署或使用。無人能預知他朝事。君可見 SPDY 怎樣獲採用，加上過去與現在的實驗，從而可猜猜算算。
 
 http2 減少了所需的網路來回行程（network round-trips）數目，並以多工（multiplexing）及快速捨棄不要的串流（stream）迴避了 head of line blocking（龍頭阻滯）的吊詭。
 
-它允許大量平行串流（parallel streams），比起當今大部份域名分割（sharding）網站，有過之而無不及。
+它允許大量平行串流（parallel streams），比起當今大部份域名分割（sharding）的網站，有過之而無不及。
 
-當在串流上好好使用優先順序（priorities）時，將能大大提升機會，客戶端能實際優先得到重要資料，才到較次要的資料。總而言之，我認為這很大機會能提升網頁載入速度，讓網站回應更靈敏。一句作結：更佳的網站體驗。
+當在串流上好好使用優先順序（priorities）時，將能大大提升機會，讓客戶端能實際優先得到重要資料，才到較次要的資料。總而言之，我認為這很大機會能提升網頁載入速度，讓網站回應更靈敏。一句作結：更佳的網站體驗。
 
 到底快了多少、能有多少提升，且拭目以待，我想暫未能定論。首先，這個科技仍屬非常早期，甚至仍未見客戶端和伺服器度身作出實作，以把握所有這個新的通訊協定所帶來的性能。
 
 ## 8.2. http2 怎樣影響網路開發？
 
-Over the years web developers and web development environments have gathered a full toolbox of tricks and tools to work around problems with HTTP 1.1, recall that I outlined  some of them in the beginning of this document as a justification for http2.
+歷年來，網路開發者（web developers）及網路開發環境（web development environments）搜羅了一整個工具箱的小技巧與工具，以緩解（work around）使用 HTTP 1.1 時的問題——還記得在本文件開端時我勾劃了其中好一些，作為支持 http2 的理由（justification）。
 
-Lots of those workarounds that tools and developers now use by default and without thinking, will probably hurt http2 performance or at least not really take advantage of http2's new super powers. Spriting and inlining should most likely not be done with http2. Sharding will probably be detrimental to http2 as it will probably benefit from using less connections.
+許多這些對策（workarounds）今時今日各個工具及開發者已不假思索應用，然而卻很可能有損 http2 的效能，至少並不能完全體現 http2 帶來新的超能力。Spriting（圖像織結）及 inlining（內述法）大抵不該在 http2 中使用。而 Sharding（域名分割）將不利於 http2 使用較少連線時所帶來的好處。
 
-A problem here is of course that web sites and web developers need to develop and deploy for a world that in the short term at least, will have both HTTP1.1 and http2 clients as users and to get maximum performance for all users can be challenging without having to offer two different front-ends.
+其中一個問題當然是，網站與網路開發者需要開發與部署在一個世界，至少短期內將會同時有 HTTP1.1 和 http2 客戶端的使用者，而為所有使用者提供最大效能，而毋需提供兩個不同的前端（front-ends），將相當具挑戰。
 
-For these reasons alone, I suspect there will be some time before we will see the full potential of http2 being reached.
+僅此上述理由，我認為 http2 能發揮所有潛能，還需待一段時間。
 
 ## 8.3. http2 實作
 
-Trying to document specific implementations in a document such as this is of course completely futile and doomed to fail and only feel outdated within a really short period of time. Instead I'll explain the situation in broader terms and refer readers to the [list of implementations](https://github.com/http2/http2-spec/wiki/Implementations) on the http2 web site.
+在一份這樣的文件中嘗試記載（document）特定的實作，無疑只會失敗告終、徒勞無功，不消一會兒就會顯得過時。因此，我將會以較廣的層面敍述大體情況，讀者可自行參閱 http2 網站上的[實作清單](https://github.com/http2/http2-spec/wiki/Implementations)。
 
-There was a large amount of implementations already early on, and the amount has increased over time during the http2 work. At the time of  writing this there are over 40 implementations listed, and most of them implement the final version.
+早期已有一定數量的實作，而數目隨著 http2 工作的進行隨時間上升。執筆之時名單上已有超過 40 個實作，大部份實作了 http2 的終定版本。
 
 ### 8.3.1 瀏覽器
 
-Firefox has been the browser that's been on top of the bleeding edge drafts,
-Twitter has kept up and offered its services over http2. Google started during
-April 2014 to offer http2 support on a few test servers running their services
-and since May 2014 they offer http2 support in their development versions of
-Chrome. Microsoft has shown a tech preview with http2 support for their next
-Internet Explorer version. Safari (with iOS 9 and Mac OS X El Capitan) and
-Opera have both said they will support http2.
+Firefox 瀏覽器一直緊貼最新的草稿，Twitter 亦跟上步伐提供 http2 上的服務。Google 在 2014 年四月其間在數個提供服務的測試伺服器上提供 http2 支援，並自 2014 年五月起在 Chrome 的開發版本中提供 http2 支援。Microsoft 在其下一版本的 Internet Explorer 技術預覽版（tech preview）中展示了 http2 支援。Safari（隨附於 iOS 9 及 Mac OS X El Capitan）及 Opera 都表示將提供 http2 支援。
 
 ### 8.3.2 伺服器
 
@@ -48,7 +42,7 @@ Opera have both said they will support http2.
 [1.9.5](https://www.nginx.com/blog/nginx-1-9-5/) 版本，已在 2015 年九月二十二日釋出（取代 SPDY 模組，因此無法在同一伺服器報行個體並行操作）。
 
 Apache 的 httpd 伺服器備有一個 http2 模組，仍在開發階段，名為
-[mod_http2](https://httpd.apache.org/docs/2.4/mod/mod_http2.html)，預期會隨著未來的 2.4.17 發行釋出。
+[mod_http2](https://httpd.apache.org/docs/2.4/mod/mod_http2.html)，預期會隨著未來的 2.4.17 版本釋出。
 
 [H2O](https://h2o.examp1e.net/)、[Apache Traffic
 Server](http://trafficserver.apache.org/)、[nghttp2](https://nghttp2.org/)、[Caddy](http://caddyserver.com/) 及
@@ -63,36 +57,29 @@ Wireshark 支援 http2。絕佳的工具來分析 http2 網路流量（network t
 
 ## 8.4. http2 紛紜
 
-During the development of this protocol the debate has been going back and forth and of course there is a certain amount of people who believe this protocol ended up completely wrong. I wanted to mention a few of the more common complaints and mention the arguments against them:
+在此通訊協定開發其間，一直已有反覆討論。當然，總有人相信這通訊協定結果完全是個錯誤。在此，我想提及一些較常見的控訴，以及反駁：
 
-### 8.4.1. “The protocol is designed or made by Google”
+### 8.4.1. 「這通訊協定是由 Google 設計或製造的」
 
-It also has variations implying that the world gets even further dependent or controlled by Google by this. This isn't true. The protocol was developed within the IETF in the same manner that protocols have been developed for over 30 years. However, we all recognize and acknowledge Google's impressive work with SPDY that not only proved that it is possible to deploy a new protocol this way but also provided numbers illustrating what gains could be made.
+也有類似論調意指世界將因此變得依賴或受 Google 控制。這並不真確。此通訊協定是在 IETF 中開發，形式與過去 30 年各個通訊協定的開發無異。不過，我們都讚賞並認可（recognize and acknowledge）Google 在 SPDY 的傑作，不只證明了這是部署新通訊協定的可行方法，亦提供了數字闡述得到的提升。
 
-Google has publicly [announced](http://blog.chromium.org/2015/02/hello-http2-goodbye-spdy-http-is_9.html) that they will remove support for SPDY and NPN in Chrome in 2016 and they urge servers to migrate to HTTP/2 instead.
+Google 已公開[宣布](http://blog.chromium.org/2015/02/hello-http2-goodbye-spdy-http-is_9.html)將會在 2016 年移除 Chrome 對 SPDY 和 NPN 的支援，並促請伺服器遷移到 HTTP/2。
 
-### 8.4.2. “The protocol is only useful for browsers”
+### 8.4.2. 「這通訊協定僅對瀏覽器有用」
 
-This is sort of true. One of the primary drivers behind the http2 development is the fixing of HTTP pipelining. If your use case originally didn't have any need for pipelining then chances are http2 won't do a lot of good for you. It certainly isn't the only improvement in the protocol but a big one.
+某程度上是正確的。http2 開發背後其中一個主要的推動力，是修正 HTTP pipelining（流水線）。若你的使用案例（use case）本來就不需要 pipelining（流水線），很可能 http2 對你也沒有很大得益。當然這不是通訊協定中惟一的改善，但確是相當大的一個。
 
-As soon as services start realizing the full power and abilities the multiplexed streams over a single connection brings, I suspect we will see more application use of http2.
+當各個服務開始發現在單一連線上多工串流（multiplexed streams）所帶來的完整能力和威力，我想將會見到更多 http2 的應用程式應用（application use）。
 
-Small REST APIs and simpler programmatic uses of HTTP 1.x may not find the step to http2 to offer very big benefits. But also, there should be very few downsides with http2 for most users.
+小型 REST API 及較簡單的 HTTP 1.x 程式編寫應用（programmatic uses）或許看不見改用 http2 有很大得益。但同樣，對大部份使用者而言 http2 也不見得有太大壞處。
 
-### 8.4.3. “The protocol is only useful for big sites”
+### 8.4.3. 「這通訊協定對大型網型才有用」
 
-Not at all. The multiplexing capabilities will greatly help to improve the experience for high latency connections that smaller sites without wide geographical distributions often offer. Large sites are already very often faster and more distributed with shorter round-trip times to users.
+此言差矣。多工能力（multiplexing capabilities）將有助大大提升高延遲連線（high latency connections）上的體驗，對許多較小型的網站沒有廣大的地理分佈（wide geographical distributions）非常有用。大型網站通常已是較快、分佈得較廣、提供較短的來回時間（round-trip times）予使用者。
 
-### 8.4.4. “Its use of TLS makes it slower”
+### 8.4.4. 「使用 TLS 讓它變慢」
 
-This can be true to some extent. The TLS handshake does add a little extra,
-but there are existing and ongoing efforts on reducing the necessary
-round-trips even more for TLS. The overhead for doing TLS over the wire
-instead of plain-text is not insignificant and clearly notable so more CPU and
-power will be spent on the same traffic pattern as a non-secure protocol. How
-much and what impact it will have is a subject of opinions and
-measurements. See for example [istlsfastyet.com](https://istlsfastyet.com/)
-for one source of info.
+某程度上或許沒錯。TLS 交握（handshake）的確增加了一點額外的工夫，但現在已有現有及持續努力更進一步減少 TLS 所需要的來回行程（necessary round-trips）。在線路（wire）上進行 TLS 而非純文字的額外負荷（overload）並不顯著，或清晰可見相同流量模式（same traffic pattern）較在不安全通訊協定（non-secure protocol）上花費高出多少 CPU 及功能（power）。數字及實際影響因意見（opinions）及度量（measurements）各有不同。作為例子，可參閱 [istlsfastyet.com](https://istlsfastyet.com/) 作為其中一個資訊來源。
 
 Telecom and other network operators, for example in the ATIS Open Web
 Alliance, say that they [need unencrypted
